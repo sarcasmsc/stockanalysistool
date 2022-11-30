@@ -1,4 +1,4 @@
-# Stock Analysis Tool
+# Stock Data Tool
 Simple tool used to pull data from Yahoo Finance to see stock price data
 \
 \
