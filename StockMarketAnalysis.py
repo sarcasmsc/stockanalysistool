@@ -7,8 +7,10 @@ import datetime
 from datetime import date, timedelta
 import plotly.graph_objects as go
 import plotly.express as px
+from statsmodels.tsa.seasonal import seasonal_decompose
+import matplotlib.pyplot as plt
 
-#tool to pull data from google finance and look at stock values being charted.
+#tool to pull data from yahoo finance and look at stock values being charted.
 
 today = date.today()
 
@@ -28,6 +30,31 @@ amdstock = yf.download('AMD',
                       end=end_date,
                       progress=False)
 
+tslastock = yf.download('TSLA',
+                      start=start_date,
+                      end=end_date,
+                      progress=False)
+
+nvidiastock = yf.download('NVDA',
+                      start=start_date,
+                      end=end_date,
+                      progress=False)
+
+intelstock = yf.download('INTC',
+                      start=start_date,
+                      end=end_date,
+                      progress=False)
+
+amazonstock = yf.download('AMZN',
+                      start=start_date,
+                      end=end_date,
+                      progress=False)
+
+netflixstock = yf.download('NFLX',
+                      start=start_date,
+                      end=end_date,
+                      progress=False)
+
 googlestock["Date"] = googlestock.index
 googlestock = googlestock[["Date", "Open", "High", "Low",
              "Close", "Adj Close", "Volume"]]
@@ -38,8 +65,30 @@ amdstock = amdstock[["Date", "Open", "High", "Low",
              "Close", "Adj Close", "Volume"]]
 amdstock.reset_index(drop=True, inplace=True)
 
-print(googlestock.head())
-print(amdstock.head())
+tslastock["Date"] = tslastock.index
+tslastock = tslastock[["Date", "Open", "High", "Low",
+             "Close", "Adj Close", "Volume"]]
+tslastock.reset_index(drop=True, inplace=True)
+
+nvidiastock["Date"] = nvidiastock.index
+nvidiastock = nvidiastock[["Date", "Open", "High", "Low",
+             "Close", "Adj Close", "Volume"]]
+nvidiastock.reset_index(drop=True, inplace=True)
+
+intelstock["Date"] = intelstock.index
+intelstock = intelstock[["Date", "Open", "High", "Low",
+             "Close", "Adj Close", "Volume"]]
+intelstock.reset_index(drop=True, inplace=True)
+
+amazonstock["Date"] = amazonstock.index
+amazonstock = amazonstock[["Date", "Open", "High", "Low",
+             "Close", "Adj Close", "Volume"]]
+amazonstock.reset_index(drop=True, inplace=True)
+
+netflixstock["Date"] = netflixstock.index
+netflixstock = netflixstock[["Date", "Open", "High", "Low",
+             "Close", "Adj Close", "Volume"]]
+netflixstock.reset_index(drop=True, inplace=True)
 
 figure = go.Figure(data=[go.Candlestick(x=googlestock['Date'],
                                         open=googlestock['Open'], high=googlestock['High'],
@@ -76,9 +125,112 @@ figure3.update_xaxes(
     )
 )
 
+figure4 = px.line(tslastock, x='Date', y='Close',
+                  title='Stock Market Analysis with Time Period Selectors')
 
-figure.show()
+figure4.update_xaxes(
+    rangeselector=dict(
+        buttons=list([
+            dict(count=1, label="1m", step="month", stepmode="backward"),
+            dict(count=6, label="6m", step="month", stepmode="backward"),
+            dict(count=3, label="3m", step="month", stepmode="backward"),
+            dict(count=1, label="1y", step="year", stepmode="backward"),
+            dict(step="all")
+        ])
+    )
+)
 
-figure2.show()
+figure5 = px.line(nvidiastock, x='Date', y='Close',
+                  title='Stock Market Analysis with Time Period Selectors')
 
-figure3.show()
+figure5.update_xaxes(
+    rangeselector=dict(
+        buttons=list([
+            dict(count=1, label="1m", step="month", stepmode="backward"),
+            dict(count=6, label="6m", step="month", stepmode="backward"),
+            dict(count=3, label="3m", step="month", stepmode="backward"),
+            dict(count=1, label="1y", step="year", stepmode="backward"),
+            dict(step="all")
+        ])
+    )
+)
+
+figure6 = px.line(intelstock, x='Date', y='Close',
+                  title='Stock Market Analysis with Time Period Selectors')
+
+figure6.update_xaxes(
+    rangeselector=dict(
+        buttons=list([
+            dict(count=1, label="1m", step="month", stepmode="backward"),
+            dict(count=6, label="6m", step="month", stepmode="backward"),
+            dict(count=3, label="3m", step="month", stepmode="backward"),
+            dict(count=1, label="1y", step="year", stepmode="backward"),
+            dict(step="all")
+        ])
+    )
+)
+
+figure7 = px.line(amazonstock, x='Date', y='Close',
+                  title='Stock Market Analysis with Time Period Selectors')
+
+figure7.update_xaxes(
+    rangeselector=dict(
+        buttons=list([
+            dict(count=1, label="1m", step="month", stepmode="backward"),
+            dict(count=6, label="6m", step="month", stepmode="backward"),
+            dict(count=3, label="3m", step="month", stepmode="backward"),
+            dict(count=1, label="1y", step="year", stepmode="backward"),
+            dict(step="all")
+        ])
+    )
+)
+
+figure8 = px.line(netflixstock, x='Date', y='Close',
+                  title='Stock Market Analysis with Time Period Selectors')
+
+figure8.update_xaxes(
+    rangeselector=dict(
+        buttons=list([
+            dict(count=1, label="1m", step="month", stepmode="backward"),
+            dict(count=6, label="6m", step="month", stepmode="backward"),
+            dict(count=3, label="3m", step="month", stepmode="backward"),
+            dict(count=1, label="1y", step="year", stepmode="backward"),
+            dict(step="all")
+        ])
+    )
+)
+
+
+
+def choice():
+    print(""""Which stock would you like to look at?
+            Choices:
+            Google
+            AMD
+            Tesla
+            Nvidia
+            Intel
+            Amazon
+            Netflix""")
+
+    stockchoice = input(" ").lower()
+
+    if stockchoice == 'google':
+        figure.show()
+        figure2.show()
+    elif stockchoice == 'amd':
+        figure3.show()
+    elif stockchoice == 'tsla':
+        figure4.show()
+    elif stockchoice == 'nvidia':
+        figure5.show()
+    elif stockchoice == 'intel':
+        figure6.show()
+    elif stockchoice == 'amazon':
+        figure7.show()
+    elif stockchoice == 'netflix':
+        figure8.show()
+    else:
+        print('something went wrong')
+
+choice()
