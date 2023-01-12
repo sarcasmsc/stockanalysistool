@@ -233,4 +233,43 @@ def choice():
     else:
         print('something went wrong')
 
-choice()
+
+def search():
+    stockchoice = ticker_entry.get()
+    if stockchoice == 'google':
+        figure.show()
+        figure2.show()
+    elif stockchoice == 'amd':
+        figure3.show()
+    elif stockchoice == 'tesla':
+        figure4.show()
+    elif stockchoice == 'nvidia':
+        figure5.show()
+    elif stockchoice == 'intel':
+        figure6.show()
+    elif stockchoice == 'amazon':
+        figure7.show()
+    elif stockchoice == 'netflix':
+        figure8.show()
+    else:
+        print('something went wrong')
+
+# Create the main window
+window = tk.Tk()
+window.title("Stock Searcher")
+window.geometry("200x150")
+
+# Create the ticker entry field
+ticker_entry = tk.Entry(window, width=200)
+ticker_entry.pack()
+
+# Create the search button
+search_button = tk.Button(window, text="Search", command=search)
+search_button.pack()
+
+# Create the results label
+results_label = tk.Label(window, text="")
+results_label.pack()
+
+# Run the main loop
+window.mainloop()
